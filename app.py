@@ -1,13 +1,42 @@
-
+# app.py
 import streamlit as st
-from st_supabase_connection import SupabaseConnection
+from supabase import create_client
 
-# Initialize connection.
-conn = st.connection("supabase",type=SupabaseConnection)
+# --- Conexión a Supabase usando st.secrets ---
+@st.cache_resource
+def init_connection():
+    url = st.secrets["SUPABASE_URL"]
+    key = st.secrets["SUPABASE_KEY"]
+    return create_client(url, key)
 
-# Perform query.
-rows = conn.query("*", table="mytable", ttl="10m").execute()
+supabase = init_connection()
 
-# Print results.
-for row in rows.data:
-    st.write(f"{row['name']} has a :{row['pet']}:")
+st.title("Mi App Streamlit + Supabase")
+
+# --- Formulario para agregar datos ---
+st.header("Agregar un nuevo registro")
+with st.form("add_form"):
+    name = st.text_input("Nombre")
+    pet = st.text_input("Mascota")
+    submitted = st.form_submit_button("Agregar")
+    
+    if submitted:
+        if name and pet:
+            try:
+                supabase.table("mytable").insert({"name": name, "pet": pet}).execute()
+                st.success(f"Registro agregado: {name} - {pet}")
+            except Exception as e:
+                st.error(f"No se pudo agregar el registro: {e}")
+        else:
+            st.warning("Debes ingresar ambos campos")
+
+# --- Mostrar datos existentes ---
+st.header("Datos de mytable")
+try:
+    rows = supabase.table("mytable").select("*").execute()
+    if rows.data:
+        st.dataframe(rows.data)
+    else:
+        st.info("No hay datos en la tabla")
+except Exception as e:
+    st.error(f"No se pudieron obtener los datos: {e}")
