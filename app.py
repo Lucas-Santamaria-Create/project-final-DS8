@@ -1,11 +1,13 @@
-import os
+
 import streamlit as st
+from st_supabase_connection import SupabaseConnection
 
-# --- Tu app aquí ---
-st.title("🚀 App Streamlit corriendo en Railway")
-st.write("Comunicación con Raspberry Pi")
+# Initialize connection.
+conn = st.connection("supabase",type=SupabaseConnection)
 
-# --- Configurar el puerto dinámico (muy importante) ---
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8501))
-    os.system(f"streamlit run app.py --server.port {port} --server.address 0.0.0.0")
+# Perform query.
+rows = conn.query("*", table="mytable", ttl="10m").execute()
+
+# Print results.
+for row in rows.data:
+    st.write(f"{row['name']} has a :{row['pet']}:")
