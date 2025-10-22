@@ -1,0 +1,39 @@
+# Entorno virtual
+venv/
+.env
+.env.*
+
+# Bytecode de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de configuración de Streamlit
+.streamlit/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+*.log
+
+# Archivos de base de datos local o SQLite
+*.db
+*.sqlite3
+
+# Configuración de contenedores o deploy locales
+.devcontainer/
+.railway.toml
+railway.json
+
+# Archivos de test temporales
+*.pytest_cache/
+*.coverage
+.coverage.*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
