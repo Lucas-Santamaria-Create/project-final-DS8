@@ -1,13 +1,13 @@
-# app.py
 import streamlit as st
 import os
 from supabase import create_client
 
-# --- Conexión a Supabase usando st.secrets ---
 @st.cache_resource
 def init_connection():
-    url = os.environ.get('SUPABASE_URL')
-    key = os.environ.get('SUPABASE_KEY')
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_KEY")
+    if not url or not key:
+        st.error("Faltan las variables de entorno SUPABASE_URL o SUPABASE_KEY")
     return create_client(url, key)
 
 supabase = init_connection()
@@ -20,7 +20,7 @@ with st.form("add_form"):
     name = st.text_input("Nombre")
     pet = st.text_input("Mascota")
     submitted = st.form_submit_button("Agregar")
-    
+
     if submitted:
         if name and pet:
             try:

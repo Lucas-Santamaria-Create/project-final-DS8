@@ -26,6 +26,7 @@ Thumbs.db
 .devcontainer/
 .railway.toml
 railway.json
+secrets.json
 
 # Archivos de test temporales
 *.pytest_cache/
