@@ -1,16 +1,23 @@
-from models.sales_model import get_sales_data
+import pandas as pd
+
+from models.obtener_datos import get_sales_data
 
 
 def obtener_resumen_datos():
-    """Devuelve un resumen de los datos para mostrar en la vista."""
-    data = get_sales_data()
-    if not data:
-        return None, "No hay datos en la tabla."
+    try:
+        # Obtienes los datos desde el modelo (lista de dicts)
+        data = get_sales_data()  # Devuelve lista de diccionarios
 
-    total_filas = len(data)
-    productos_unicos = len(set([item["product"] for item in data]))
-    return {
-        "total_filas": total_filas,
-        "productos_unicos": productos_unicos,
-        "data": data,
-    }, None
+        # Convertimos a DataFrame **aquí**, en el controlador
+        df = pd.DataFrame(data)
+
+        resumen = {
+            "data": df,
+            "total_filas": len(df),
+            "productos_unicos": df["product"].nunique(),
+        }
+
+        return resumen, None
+
+    except Exception as e:
+        return None, str(e)
