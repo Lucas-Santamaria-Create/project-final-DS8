@@ -5,19 +5,6 @@ import streamlit as st
 from controllers.grafica_controller import obtener_resumen_datos
 
 
-# --- Función para cargar CSS ---
-def load_css(file_name):
-    css_path = os.path.join(os.path.dirname(__file__), file_name)
-    if os.path.exists(css_path):
-        with open(css_path) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    else:
-        st.warning(f"No se encontró el archivo CSS: {file_name}")
-
-
-# --- Cargar CSS antes que cualquier st.markdown o st.dataframe ---
-load_css("styles/principal.css")
-
 st.set_page_config(page_title="Menú Principal", page_icon="📊", layout="wide")
 
 # --- Encabezado ---
