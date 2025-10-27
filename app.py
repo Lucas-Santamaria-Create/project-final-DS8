@@ -58,13 +58,4 @@ else:
     st.dataframe(resumen["data"].head())
 
 st.write("---")
-st.markdown(
-    """
-    <div style="text-align:center;">
-        <a href="/pages/grafica" target="_self">
-            <button class="custom-button">📈 Ver gráfica interactiva</button>
-        </a>
-    </div>
-""",
-    unsafe_allow_html=True,
-)
+
